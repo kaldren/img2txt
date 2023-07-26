@@ -283,7 +283,7 @@ export default function App() {
         beforeAddFile={handleAddFile}
       />
 
-      <StyledButton onClick={openModal}>
+      <StyledButton>
         {processing ? 'Processing...' : 'Upload Files'}
       </StyledButton>
       <LanguageDisplay className="language-display">
