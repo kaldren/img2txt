@@ -246,6 +246,11 @@ export default function App() {
     return true;
   };
   
+  const uploadFiles = () => {
+    if (pond.current) {
+      pond.current.processFiles();
+    }
+  }
 
   return (
     <Container>
@@ -283,7 +288,7 @@ export default function App() {
         beforeAddFile={handleAddFile}
       />
 
-      <StyledButton>
+      <StyledButton onClick={uploadFiles} disabled={processing}>
         {processing ? 'Processing...' : 'Upload Files'}
       </StyledButton>
       <LanguageDisplay className="language-display">
