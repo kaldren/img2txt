@@ -202,14 +202,14 @@ export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [language, setLanguage] = useState('en');
-  const [chosenLanguage, setChosenLanguage] = useState('English'); // Initial
+  const [chosenLanguage, setChosenLanguage] = useState('English');
   const [joyrideRun, setJoyrideRun] = useState(true);
 
   const joyrideSteps = [
     {
       target: '.language-display',
-      content: 'Change your document language from here',
-      event: 'load', // try adding this to trigger on load
+      content: 'Change your images language from here',
+      event: 'load',
       disableBeacon: true,
     },
   ];
@@ -241,16 +241,7 @@ export default function App() {
   const handleUploadClick = () => {
     setUploadModalOpen(true);
   };
-
-  const handleUploadModalClose = () => {
-    setUploadModalOpen(false);
-  };
-
-  const handleUploadModalContinue = () => {
-    uploadFiles();
-    setUploadModalOpen(false);
-  };
-
+  
   const handleLanguageChange = (languageCode, languageName) => {
     setLanguage(languageCode);
     setChosenLanguage(languageName);
