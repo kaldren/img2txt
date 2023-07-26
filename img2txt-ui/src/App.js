@@ -3,6 +3,9 @@ import { FilePond } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
 import axios from 'axios';
 import styled from 'styled-components';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 const Container = styled.div`
   display: flex;
@@ -92,18 +95,18 @@ export default function App() {
   }
 
   const handleAddFile = (fileItem) => {
-    // Validate file type
-    const fileType = fileItem.fileType; 
+    const fileType = fileItem.fileType;
     if (!['image/jpeg', 'image/png', 'image/jpg', 'image/gif'].includes(fileType)) {
-      // If not an image, return false to prevent file from being added
-      alert('Please upload only images (jpeg, png, jpg, gif).');
+      toast.error('Please upload only images (jpeg, png, jpg, gif).');
       return false;
     }
     return true;
-  }
+  };
+  
 
   return (
     <Container>
+      <ToastContainer />
       <Header>Upload your images and we'll convert them to text</Header>
       <StyledFilePond
         ref={pond}
