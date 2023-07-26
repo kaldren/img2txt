@@ -74,6 +74,9 @@ const modalStyles = {
     width: '500px',
     maxWidth: '100%',
   },
+  overlay: {
+    backgroundColor: 'rgba(255, 255, 255, 0.75)',
+  },
 };
 
 const StyledSelect = styled.select`
@@ -121,16 +124,26 @@ const LanguageOption = styled.div`
   align-items: center;
   margin: 10px;
   cursor: pointer;
+  transition: transform 0.2s ease;
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 
 const LanguageImage = styled.img`
   width: 50px;
   height: 50px;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 `;
 
 const LanguageName = styled.div`
   margin-top: 10px;
   text-align: center;
+  font-size: 1.2em;
+  color: #ffffff; // Changed text color to white for better contrast
+  font-weight: bold;
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); // Text shadow for better legibility
 `;
 
 const LanguageDisplay = styled.div`
@@ -146,7 +159,10 @@ const LanguageDisplay = styled.div`
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 `;
 
-
+const Title = styled.h2`
+  color: #ffffff; // Changed text color to white for better contrast
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); // Text shadow for better legibility
+`;
 
 
 export default function App() {
@@ -166,7 +182,7 @@ export default function App() {
   const joyrideSteps = [
     {
       target: ".language-display",
-      content: "Change your document language from here",
+      content: "Choose the language that's on your images",
       event: 'load', // try adding this to trigger on load
       disableBeacon: true, 
     },
@@ -233,24 +249,24 @@ export default function App() {
 
   return (
     <Container>
-    <Modal
-      isOpen={isModalOpen}
-      onRequestClose={closeModal}
-      style={modalStyles}
-      contentLabel="Select Language Modal"
-    >
-      <h2>Select Image Language</h2>
-      <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-        <LanguageOption onClick={() => handleLanguageChange('eng', 'English')}>
-          <LanguageImage src="/assets/img/en.png" alt="English" />
-          <LanguageName>English</LanguageName>
-        </LanguageOption>
-        <LanguageOption onClick={() => handleLanguageChange('bg', 'Bulgarian')}>
-          <LanguageImage src="/assets/img/bg.png" alt="Bulgarian" />
-          <LanguageName>Bulgarian</LanguageName>
-        </LanguageOption>
-      </div>
-    </Modal>
+<Modal
+  isOpen={isModalOpen}
+  onRequestClose={closeModal}
+  style={modalStyles}
+  contentLabel="Choose the language on your images"
+>
+  <Title>What is the language?</Title>
+  <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+    <LanguageOption onClick={() => handleLanguageChange('en', 'English')}>
+      <LanguageImage src="/assets/img/en.png" alt="English" />
+      <LanguageName>English</LanguageName>
+    </LanguageOption>
+    <LanguageOption onClick={() => handleLanguageChange('bg', 'Bulgarian')}>
+      <LanguageImage src="/assets/img/bg.png" alt="Bulgarian" />
+      <LanguageName>Bulgarian</LanguageName>
+    </LanguageOption>
+  </div>
+</Modal>
 
 
       <ToastContainer />
