@@ -182,16 +182,16 @@ const ConfirmButton = styled.button`
 `;
 
 const LanguageButton = styled.button`
-  display: flex; // Add this line
-  align-items: center; // Add this line
+  display: flex; 
+  align-items: center;
   border: none;
   background: none;
   cursor: pointer;
   span {
     margin-left: 5px;
-    color: #1e90ff;
+    color: white; // change color to white
     font-size: 0.9em;
-    text-decoration: underline;
+    text-decoration: none; // remove underline
   }
 `;
 
