@@ -23,23 +23,27 @@ const Header = styled.h1`
 
 const StyledButton = styled.button`
   margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 1.2em;
+  padding: 15px 30px; // Increased padding
+  font-size: 1.4em; // Increased font size
   font-weight: bold;
-  background: linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%);
+  background: #1e90ff; // Bright Blue color
   border: none;
   color: white;
   cursor: pointer;
-  transition: background 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   border-radius: 20px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
   &:hover {
-    background: linear-gradient(45deg, #FF8E53 30%, #FE6B8B 90%);
+    transform: scale(1.1); // Scales up the button on hover
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
   }
   &:disabled {
     cursor: not-allowed;
     background-color: #cccccc;
   }
 `;
+
+
 
 const StyledFilePond = styled(FilePond)`
   min-width: 400px; 
