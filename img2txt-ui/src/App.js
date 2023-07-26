@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import Modal from 'react-modal';
 
 const Container = styled.div`
   display: flex;
@@ -55,6 +56,64 @@ const StyledFilePond = styled(FilePond)`
   }
 `;
 
+const modalStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    borderRadius: '15px',
+    padding: '20px',
+    width: '50%', // adjust this as needed
+    background: 'linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%)',
+    color: 'white',
+    fontFamily: 'Arial, sans-serif',
+    width: '500px',
+    maxWidth: '100%',
+  },
+};
+
+const StyledSelect = styled.select`
+  width: 100%;
+  height: 35px;
+  background: white;
+  color: gray;
+  padding-left: 5px;
+  font-size: 14px;
+  border: none;
+  margin-left: 10px;
+  border-radius: 5px;
+
+  option {
+    color: black;
+    background: white;
+    display: flex;
+    white-space: pre;
+    min-height: 20px;
+    padding: 0px 2px 1px;
+  }
+`;
+
+
+
+const ConfirmButton = styled.button`
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  font-weight: bold;
+  background: linear-gradient(45deg, #fa709a 0%, #fee140 100%);
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+  border-radius: 20px;
+  &:hover {
+    background: linear-gradient(45deg, #fee140 0%, #fa709a 100%);
+  }
+`;
+
 
 export default function App() {
   const pond = useRef();
@@ -65,6 +124,20 @@ export default function App() {
   const serverEndpoint = `http://127.0.0.1:5000/api/upload_image/${folderName}`
 
   const [processing, setProcessing] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [language, setLanguage] = useState('eng'); // default language
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  }
+
+  const handleChange = (event) => {
+    setLanguage(event.target.value);
+  }
 
   const uploadFiles = () => {
     if (pond.current) {
@@ -110,6 +183,23 @@ export default function App() {
 
   return (
     <Container>
+<Modal
+  isOpen={isModalOpen}
+  onRequestClose={closeModal}
+  style={modalStyles}
+  contentLabel="Select Language Modal"
+>
+  <h2>Select Image Language</h2>
+  <StyledSelect value={language} onChange={handleChange}>
+    <option value="eng">English</option>
+    <option value="spa">Spanish</option>
+    <option value="fre">French</option>
+    {/* add as many languages as pytesseract supports */}
+  </StyledSelect>
+  <ConfirmButton onClick={closeModal}>Confirm</ConfirmButton>
+</Modal>
+
+
       <ToastContainer />
       <Header>Upload your images and we'll convert them to text</Header>
       <StyledFilePond
@@ -124,9 +214,10 @@ export default function App() {
         beforeAddFile={handleAddFile}
       />
 
-      <StyledButton onClick={uploadFiles} disabled={processing}>
+      <StyledButton onClick={openModal}>
         {processing ? 'Processing...' : 'Upload Files'}
       </StyledButton>
+
     </Container>
   );
 }
