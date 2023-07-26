@@ -78,18 +78,6 @@ const modalStyles = {
   },
 };
 
-const LanguageChangeButton = styled.button`
-  background-color: #ff6b6b;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
-  cursor: pointer;
-  &:hover {
-    background-color: #fa5252;
-  }
-`;
-
 const LanguageOption = styled.div`
   display: flex;
   flex-direction: column;
@@ -136,39 +124,6 @@ const Title = styled.h2`
   text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); // Text shadow for better legibility
 `;
 
-const UploadModalContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  color: #ffffff;
-  font-weight: bold;
-  text-align: center;
-`;
-
-const UploadModalButton = styled.button`
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 1.2em;
-  font-weight: bold;
-  background: linear-gradient(45deg, #fa709a 0%, #fee140 100%);
-  border: none;
-  color: white;
-  cursor: pointer;
-  transition: background 0.3s ease-in-out;
-  border-radius: 20px;
-  &:hover {
-    background: linear-gradient(45deg, #fee140 0%, #fa709a 100%);
-  }
-`;
-
-const UploadModalTitle = styled.h2`
-  color: #ffffff;
-  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  margin-bottom: 20px;
-`;
-
 const uploadModalStyles = {
   content: {
     top: '50%',
@@ -177,19 +132,58 @@ const uploadModalStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
-    borderRadius: '15px',
-    padding: '20px',
-    background: 'linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%)',
-    color: 'white',
+    borderRadius: '20px',
+    padding: '30px',
+    color: '#333',
     fontFamily: 'Arial, sans-serif',
-    width: '80%',
-    maxWidth: '600px',
+    background: 'linear-gradient(135deg, #E0EAFC 0%, #CFDEF3 100%)',
+    textAlign: 'center',
+    width: '70%',
+    maxWidth: '90%',
   },
   overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
     zIndex: 900,
   },
 };
+
+const UploadButton = styled.button`
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  font-weight: bold;
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+  border-radius: 20px;
+  &:hover {
+    background: linear-gradient(135deg, #38ef7d 0%, #11998e 100%);
+  }
+`;
+
+const CancelButton = styled.button`
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  font-weight: bold;
+  background: linear-gradient(135deg, #ed213a 0%, #93291e 100%);
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+  border-radius: 20px;
+  &:hover {
+    background: linear-gradient(135deg, #93291e 0%, #ed213a 100%);
+  }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+`;
 
 
 export default function App() {
@@ -202,7 +196,7 @@ export default function App() {
 
   const [processing, setProcessing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [uploadModalOpen, setUploadModalOpen] = useState(false);
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [language, setLanguage] = useState('en');
   const [chosenLanguage, setChosenLanguage] = useState('English'); // Initial
   const [joyrideRun, setJoyrideRun] = useState(true);
@@ -223,6 +217,15 @@ export default function App() {
       setJoyrideRun(false);
     }
   };
+
+  const setUploadModalOpen = () => {
+    setIsUploadModalOpen(true);
+  }
+  
+  const closeUploadModal = () => {
+    setIsUploadModalOpen(false);
+  }
+  
 
 
   const openModal = () => {
@@ -315,18 +318,19 @@ export default function App() {
       </Modal>
 
       <Modal
-  isOpen={uploadModalOpen}
-  onRequestClose={handleUploadModalClose}
+  isOpen={isUploadModalOpen}
+  onRequestClose={closeUploadModal}
   style={uploadModalStyles}
   contentLabel="Upload Confirmation Modal"
 >
-  <UploadModalContent>
-    <UploadModalTitle>We're about to extract the text from the images in {chosenLanguage}.</UploadModalTitle>
-    <LanguageChangeButton onClick={openModal}>Change Language</LanguageChangeButton>
-    <UploadModalButton onClick={handleUploadModalContinue}>Continue</UploadModalButton>
-    <UploadModalButton onClick={handleUploadModalClose}>Cancel</UploadModalButton>
-  </UploadModalContent>
+  <h2>We're about to extract the text from the images in {chosenLanguage}</h2>
+  <UploadButton onClick={openModal}>Change Language</UploadButton>
+  <ButtonContainer>
+    <UploadButton onClick={uploadFiles}>Continue</UploadButton>
+    <CancelButton onClick={closeUploadModal}>Cancel</CancelButton>
+  </ButtonContainer>
 </Modal>
+
 
 
       <ToastContainer />
