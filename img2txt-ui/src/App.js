@@ -250,9 +250,8 @@ export default function App() {
         {processing ? 'Processing...' : 'Upload Files'}
       </StyledButton>
       <LanguageDisplay>
-      <img src={`/assets/img/${language}.png`} alt={chosenLanguage} width="30" height="30" />
       <button onClick={openModal}>
-        Change Language
+        <img src={`/assets/img/${language}.png`} alt={chosenLanguage} width="30" height="30" />
       </button>
     </LanguageDisplay>
     </Container>
