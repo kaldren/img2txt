@@ -15,7 +15,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%);
+  background: linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%);
 `;
 
 const Header = styled.h1`
@@ -46,12 +46,12 @@ const StyledButton = styled.button`
 `;
 
 const StyledFilePond = styled(FilePond)`
-  min-width: 400px; 
+  min-width: 400px;
   .filepond--root {
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     border-radius: 20px;
     padding: 20px;
-    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
   }
 `;
 
@@ -145,23 +145,6 @@ const uploadModalStyles = {
   },
 };
 
-
-const UploadButton = styled.button`
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 1.2em;
-  font-weight: bold;
-  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-  border: none;
-  color: white;
-  cursor: pointer;
-  transition: background 0.3s ease-in-out;
-  border-radius: 20px;
-  &:hover {
-    background: linear-gradient(135deg, #38ef7d 0%, #11998e 100%);
-  }
-`;
-
 const CancelButton = styled.button`
   background-color: #f44336; /* Red */
   color: white;
@@ -181,7 +164,7 @@ const CancelButton = styled.button`
 `;
 
 const ConfirmButton = styled.button`
-  background-color: #4CAF50; /* Green */
+  background-color: #4caf50; /* Green */
   color: white;
   padding: 10px 24px;
   text-align: center;
@@ -198,26 +181,22 @@ const ConfirmButton = styled.button`
   }
 `;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  margin-top: 20px;
-`;
-
 const LanguageButton = styled.button`
   margin: 10px;
   padding: 0;
   border: none;
   background: none;
-`
+`;
 
 export default function App() {
   const pond = useRef();
 
   const date = new Date();
   const randomString = Math.random().toString(36).substring(2, 15);
-  const folderName = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}_${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}_${randomString}`;
-  const serverEndpoint = `http://127.0.0.1:5000/api/upload_image/${folderName}`
+  const folderName = `${date.getDate()}-${
+    date.getMonth() + 1
+  }-${date.getFullYear()}_${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}_${randomString}`;
+  const serverEndpoint = `http://127.0.0.1:5000/api/upload_image/${folderName}`;
 
   const [processing, setProcessing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -225,19 +204,19 @@ export default function App() {
   const [language, setLanguage] = useState('en');
   const [chosenLanguage, setChosenLanguage] = useState('English'); // Initial
   const [joyrideRun, setJoyrideRun] = useState(true);
-  
+
   const joyrideSteps = [
     {
-      target: ".language-display",
-      content: "Change your document language from here",
+      target: '.language-display',
+      content: 'Change your document language from here',
       event: 'load', // try adding this to trigger on load
-      disableBeacon: true, 
+      disableBeacon: true,
     },
   ];
 
   const handleJoyrideCallback = (data) => {
     const { status, action } = data;
-    console.log("Joyride callback:", status, action);
+    console.log('Joyride callback:', status, action);
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
       setJoyrideRun(false);
     }
@@ -245,21 +224,19 @@ export default function App() {
 
   const setUploadModalOpen = () => {
     setIsUploadModalOpen(true);
-  }
-  
+  };
+
   const closeUploadModal = () => {
     setIsUploadModalOpen(false);
-  }
-  
-
+  };
 
   const openModal = () => {
     setIsModalOpen(true);
-  }
+  };
 
   const closeModal = () => {
     setIsModalOpen(false);
-  }
+  };
 
   const handleUploadClick = () => {
     setUploadModalOpen(true);
@@ -288,40 +265,42 @@ export default function App() {
 
     console.log('File processed:', file);
 
-    if (pond.current.getFiles().every(file => file.status === 5)) {
+    if (pond.current.getFiles().every((file) => file.status === 5)) {
       console.log('All files have been processed');
 
       setProcessing(true);
 
-      axios.get(`http://127.0.0.1:5000/api/create_zip/${folderName}`)
-        .then(response => {
+      axios
+        .get(`http://127.0.0.1:5000/api/create_zip/${folderName}`)
+        .then((response) => {
           console.log(response);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         })
         .finally(() => {
           setProcessing(false);
         });
     }
-  }
+  };
 
   const handleAddFile = (fileItem) => {
     const fileType = fileItem.fileType;
-    if (!['image/jpeg', 'image/png', 'image/jpg', 'image/gif'].includes(fileType)) {
+    if (
+      !['image/jpeg', 'image/png', 'image/jpg', 'image/gif'].includes(fileType)
+    ) {
       toast.error('Please upload only images (jpeg, png, jpg, gif).');
       return false;
     }
     return true;
   };
-  
+
   const uploadFiles = () => {
     if (pond.current) {
       pond.current.processFiles();
       closeUploadModal();
     }
-  }
-
+  };
 
   return (
     <Container>
@@ -329,41 +308,46 @@ export default function App() {
         isOpen={isModalOpen}
         onRequestClose={closeModal}
         style={modalStyles}
-        contentLabel="Choose the language on your images"
+        contentLabel='Choose the language on your images'
       >
         <Title>What is the language?</Title>
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           <LanguageOption onClick={() => handleLanguageChange('en', 'English')}>
-            <LanguageImage src="/assets/img/en.png" alt="English" />
+            <LanguageImage src='/assets/img/en.png' alt='English' />
             <LanguageName>English</LanguageName>
           </LanguageOption>
-          <LanguageOption onClick={() => handleLanguageChange('bg', 'Bulgarian')}>
-            <LanguageImage src="/assets/img/bg.png" alt="Bulgarian" />
+          <LanguageOption
+            onClick={() => handleLanguageChange('bg', 'Bulgarian')}
+          >
+            <LanguageImage src='/assets/img/bg.png' alt='Bulgarian' />
             <LanguageName>Bulgarian</LanguageName>
           </LanguageOption>
         </div>
       </Modal>
 
-
       <Modal
-  isOpen={isUploadModalOpen}
-  onRequestClose={closeUploadModal}
-  style={uploadModalStyles}
-  contentLabel="Upload Modal"
->
-  <Title>Upload your images</Title>
-  <p>We're about to extract the text from the images in {chosenLanguage}</p>
-  <LanguageButton onClick={openModal}>
-    <img src={`/assets/img/${language}.png`} alt={chosenLanguage} width="30" height="30" />
-  </LanguageButton>
-  <div style={{ display: 'flex', justifyContent: 'center' }}>
-    <ConfirmButton onClick={uploadFiles}>Continue</ConfirmButton>
-    <CancelButton onClick={closeUploadModal}>Cancel</CancelButton>
-  </div>
-</Modal>
-
-
-
+        isOpen={isUploadModalOpen}
+        onRequestClose={closeUploadModal}
+        style={uploadModalStyles}
+        contentLabel='Upload Modal'
+      >
+        <Title>Upload your images</Title>
+        <p>
+          We're about to extract the text from the images in {chosenLanguage}
+        </p>
+        <LanguageButton onClick={openModal}>
+          <img
+            src={`/assets/img/${language}.png`}
+            alt={chosenLanguage}
+            width='30'
+            height='30'
+          />
+        </LanguageButton>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <ConfirmButton onClick={uploadFiles}>Continue</ConfirmButton>
+          <CancelButton onClick={closeUploadModal}>Cancel</CancelButton>
+        </div>
+      </Modal>
 
       <ToastContainer />
       <Header>Upload your images and we'll convert them to text</Header>
@@ -373,7 +357,7 @@ export default function App() {
         allowMultiple={true}
         allowProcess={false}
         allowRevert={false}
-        maxParallelUploads={1} 
+        maxParallelUploads={1}
         server={serverEndpoint}
         onprocessfile={handleProcessFile}
         beforeAddFile={handleAddFile}
@@ -382,20 +366,24 @@ export default function App() {
       <StyledButton onClick={handleUploadClick} disabled={processing}>
         {processing ? 'Processing...' : 'Upload Files'}
       </StyledButton>
-      <LanguageDisplay className="language-display">
-      <button onClick={openModal}>
-        <img src={`/assets/img/${language}.png`} alt={chosenLanguage} width="30" height="30" />
-      </button>
-    </LanguageDisplay>
-    <Joyride
-      steps={joyrideSteps}
-      run={joyrideRun}
-      continuous={true}
-      showProgress={true}
-      disableBeacon={true} // Add this line
-      callback={handleJoyrideCallback}
-    />
-
+      <LanguageDisplay className='language-display'>
+        <button onClick={openModal}>
+          <img
+            src={`/assets/img/${language}.png`}
+            alt={chosenLanguage}
+            width='30'
+            height='30'
+          />
+        </button>
+      </LanguageDisplay>
+      <Joyride
+        steps={joyrideSteps}
+        run={joyrideRun}
+        continuous={true}
+        showProgress={true}
+        disableBeacon={true} // Add this line
+        callback={handleJoyrideCallback}
+      />
     </Container>
   );
 }
