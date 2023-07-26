@@ -10,21 +10,27 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #F0F0F0;
+  background: linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%);
+`;
+
+const Header = styled.h1`
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 `;
 
 const StyledButton = styled.button`
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 1.2em;
-  background-color: #FF7F50;
+  font-weight: bold;
+  background: linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%);
   border: none;
   color: white;
   cursor: pointer;
-  transition-duration: 0.4s;
-  border-radius: 20px;  // Rounded corners
+  transition: background 0.3s ease-in-out;
+  border-radius: 20px;
   &:hover {
-    background-color: #008B8B; // Dark Cyan color on hover
+    background: linear-gradient(45deg, #FF8E53 30%, #FE6B8B 90%);
   }
   &:disabled {
     cursor: not-allowed;
@@ -98,16 +104,17 @@ export default function App() {
 
   return (
     <Container>
+      <Header>Upload your images and we'll convert them to text</Header>
       <StyledFilePond
         ref={pond}
         instantUpload={false}
         allowMultiple={true}
         allowProcess={false}
+        allowRevert={false}
         maxParallelUploads={1} 
         server={serverEndpoint}
-        allowRevert={false}
         onprocessfile={handleProcessFile}
-        beforeAddFile={handleAddFile} 
+        beforeAddFile={handleAddFile}
       />
 
       <StyledButton onClick={uploadFiles} disabled={processing}>
