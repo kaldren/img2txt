@@ -182,11 +182,19 @@ const ConfirmButton = styled.button`
 `;
 
 const LanguageButton = styled.button`
-  margin: 10px;
-  padding: 0;
+  display: flex; // Add this line
+  align-items: center; // Add this line
   border: none;
   background: none;
+  cursor: pointer;
+  span {
+    margin-left: 5px;
+    color: #1e90ff;
+    font-size: 0.9em;
+    text-decoration: underline;
+  }
 `;
+
 
 export default function App() {
   const pond = useRef();
@@ -241,7 +249,7 @@ export default function App() {
   const handleUploadClick = () => {
     setUploadModalOpen(true);
   };
-  
+
   const handleLanguageChange = (languageCode, languageName) => {
     setLanguage(languageCode);
     setChosenLanguage(languageName);
@@ -326,14 +334,17 @@ export default function App() {
         <p>
           We're about to extract the text from the images in {chosenLanguage}
         </p>
-        <LanguageButton onClick={openModal}>
-          <img
-            src={`/assets/img/${language}.png`}
-            alt={chosenLanguage}
-            width='30'
-            height='30'
-          />
+        <div>
+          <LanguageButton onClick={openModal}>
+            <img
+              src={`/assets/img/${language}.png`}
+              alt={chosenLanguage}
+
+            />
+            <span>( click to change )</span>
         </LanguageButton>
+        </div>
+
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <ConfirmButton onClick={uploadFiles}>Continue</ConfirmButton>
           <CancelButton onClick={closeUploadModal}>Cancel</CancelButton>
