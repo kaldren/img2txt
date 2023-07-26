@@ -45,8 +45,6 @@ const StyledButton = styled.button`
   }
 `;
 
-
-
 const StyledFilePond = styled(FilePond)`
   min-width: 400px; 
   .filepond--root {
@@ -76,45 +74,19 @@ const modalStyles = {
   },
   overlay: {
     backgroundColor: 'rgba(255, 255, 255, 0.75)',
+    zIndex: 1000,
   },
 };
 
-const StyledSelect = styled.select`
-  width: 100%;
-  height: 35px;
-  background: white;
-  color: gray;
-  padding-left: 5px;
-  font-size: 14px;
-  border: none;
-  margin-left: 10px;
-  border-radius: 5px;
-
-  option {
-    color: black;
-    background: white;
-    display: flex;
-    white-space: pre;
-    min-height: 20px;
-    padding: 0px 2px 1px;
-  }
-`;
-
-
-
-const ConfirmButton = styled.button`
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 1.2em;
-  font-weight: bold;
-  background: linear-gradient(45deg, #fa709a 0%, #fee140 100%);
-  border: none;
+const LanguageChangeButton = styled.button`
+  background-color: #ff6b6b;
   color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
   cursor: pointer;
-  transition: background 0.3s ease-in-out;
-  border-radius: 20px;
   &:hover {
-    background: linear-gradient(45deg, #fee140 0%, #fa709a 100%);
+    background-color: #fa5252;
   }
 `;
 
@@ -164,6 +136,61 @@ const Title = styled.h2`
   text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); // Text shadow for better legibility
 `;
 
+const UploadModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: #ffffff;
+  font-weight: bold;
+  text-align: center;
+`;
+
+const UploadModalButton = styled.button`
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  font-weight: bold;
+  background: linear-gradient(45deg, #fa709a 0%, #fee140 100%);
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+  border-radius: 20px;
+  &:hover {
+    background: linear-gradient(45deg, #fee140 0%, #fa709a 100%);
+  }
+`;
+
+const UploadModalTitle = styled.h2`
+  color: #ffffff;
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+`;
+
+const uploadModalStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    borderRadius: '15px',
+    padding: '20px',
+    background: 'linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%)',
+    color: 'white',
+    fontFamily: 'Arial, sans-serif',
+    width: '80%',
+    maxWidth: '600px',
+  },
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    zIndex: 900,
+  },
+};
+
 
 export default function App() {
   const pond = useRef();
@@ -175,6 +202,7 @@ export default function App() {
 
   const [processing, setProcessing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [uploadModalOpen, setUploadModalOpen] = useState(false);
   const [language, setLanguage] = useState('en');
   const [chosenLanguage, setChosenLanguage] = useState('English'); // Initial
   const [joyrideRun, setJoyrideRun] = useState(true);
@@ -182,7 +210,7 @@ export default function App() {
   const joyrideSteps = [
     {
       target: ".language-display",
-      content: "Choose the language that's on your images",
+      content: "Change your document language from here",
       event: 'load', // try adding this to trigger on load
       disableBeacon: true, 
     },
@@ -204,6 +232,19 @@ export default function App() {
   const closeModal = () => {
     setIsModalOpen(false);
   }
+
+  const handleUploadClick = () => {
+    setUploadModalOpen(true);
+  };
+
+  const handleUploadModalClose = () => {
+    setUploadModalOpen(false);
+  };
+
+  const handleUploadModalContinue = () => {
+    uploadFiles();
+    setUploadModalOpen(false);
+  };
 
   const handleLanguageChange = (languageCode, languageName) => {
     setLanguage(languageCode);
@@ -254,23 +295,37 @@ export default function App() {
 
   return (
     <Container>
-<Modal
-  isOpen={isModalOpen}
-  onRequestClose={closeModal}
-  style={modalStyles}
-  contentLabel="Choose the language on your images"
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        style={modalStyles}
+        contentLabel="Choose the language on your images"
+      >
+        <Title>What is the language?</Title>
+        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+          <LanguageOption onClick={() => handleLanguageChange('en', 'English')}>
+            <LanguageImage src="/assets/img/en.png" alt="English" />
+            <LanguageName>English</LanguageName>
+          </LanguageOption>
+          <LanguageOption onClick={() => handleLanguageChange('bg', 'Bulgarian')}>
+            <LanguageImage src="/assets/img/bg.png" alt="Bulgarian" />
+            <LanguageName>Bulgarian</LanguageName>
+          </LanguageOption>
+        </div>
+      </Modal>
+
+      <Modal
+  isOpen={uploadModalOpen}
+  onRequestClose={handleUploadModalClose}
+  style={uploadModalStyles}
+  contentLabel="Upload Confirmation Modal"
 >
-  <Title>What is the language?</Title>
-  <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-    <LanguageOption onClick={() => handleLanguageChange('en', 'English')}>
-      <LanguageImage src="/assets/img/en.png" alt="English" />
-      <LanguageName>English</LanguageName>
-    </LanguageOption>
-    <LanguageOption onClick={() => handleLanguageChange('bg', 'Bulgarian')}>
-      <LanguageImage src="/assets/img/bg.png" alt="Bulgarian" />
-      <LanguageName>Bulgarian</LanguageName>
-    </LanguageOption>
-  </div>
+  <UploadModalContent>
+    <UploadModalTitle>We're about to extract the text from the images in {chosenLanguage}.</UploadModalTitle>
+    <LanguageChangeButton onClick={openModal}>Change Language</LanguageChangeButton>
+    <UploadModalButton onClick={handleUploadModalContinue}>Continue</UploadModalButton>
+    <UploadModalButton onClick={handleUploadModalClose}>Cancel</UploadModalButton>
+  </UploadModalContent>
 </Modal>
 
 
@@ -288,7 +343,7 @@ export default function App() {
         beforeAddFile={handleAddFile}
       />
 
-      <StyledButton onClick={uploadFiles} disabled={processing}>
+      <StyledButton onClick={handleUploadClick} disabled={processing}>
         {processing ? 'Processing...' : 'Upload Files'}
       </StyledButton>
       <LanguageDisplay className="language-display">
@@ -297,13 +352,13 @@ export default function App() {
       </button>
     </LanguageDisplay>
     <Joyride
-  steps={joyrideSteps}
-  run={joyrideRun}
-  continuous={true}
-  showProgress={true}
-  disableBeacon={true} // Add this line
-  callback={handleJoyrideCallback}
-/>
+      steps={joyrideSteps}
+      run={joyrideRun}
+      continuous={true}
+      showProgress={true}
+      disableBeacon={true} // Add this line
+      callback={handleJoyrideCallback}
+    />
 
     </Container>
   );
