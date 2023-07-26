@@ -2,12 +2,45 @@ import React, { useRef, useState } from 'react';
 import { FilePond } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
 import axios from 'axios';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f5f5f5;
+`;
+
+const StyledButton = styled.button`
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  background-color: #008CBA; /* Blue */
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition-duration: 0.4s;
+  &:hover {
+    background-color: #4CAF50; /* Green */
+  }
+  &:disabled {
+    cursor: not-allowed;
+    background-color: #cccccc;
+  }
+`;
+
+// New StyledFilePond component
+const StyledFilePond = styled(FilePond)`
+  min-width: 400px; // Adjust width as needed
+`;
 
 export default function App() {
   const pond = useRef();
 
   const date = new Date();
-  const randomString = Math.random().toString(36).substring(2, 15); 
+  const randomString = Math.random().toString(36).substring(2, 15);
   const folderName = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}_${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}_${randomString}`;
   const serverEndpoint = `http://127.0.0.1:5000/api/upload_image/${folderName}`
 
@@ -47,7 +80,7 @@ export default function App() {
 
   const handleAddFile = (fileItem) => {
     // Validate file type
-    const fileType = fileItem.fileType; // Changed 'fileItems[0].fileType' to 'fileItem.fileType'
+    const fileType = fileItem.fileType; 
     if (!['image/jpeg', 'image/png', 'image/jpg', 'image/gif'].includes(fileType)) {
       // If not an image, return false to prevent file from being added
       alert('Please upload only images (jpeg, png, jpg, gif).');
@@ -55,11 +88,10 @@ export default function App() {
     }
     return true;
   }
-  
 
   return (
-    <div>
-      <FilePond
+    <Container>
+      <StyledFilePond
         ref={pond}
         instantUpload={false}
         allowMultiple={true}
@@ -67,12 +99,12 @@ export default function App() {
         maxParallelUploads={1} 
         server={serverEndpoint}
         onprocessfile={handleProcessFile}
-        beforeAddFile={handleAddFile} // New hook for validating file type
+        beforeAddFile={handleAddFile} 
       />
 
-      <button onClick={uploadFiles} disabled={processing}>
+      <StyledButton onClick={uploadFiles} disabled={processing}>
         {processing ? 'Processing...' : 'Upload Files'}
-      </button>
-    </div>
+      </StyledButton>
+    </Container>
   );
 }
