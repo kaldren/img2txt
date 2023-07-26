@@ -132,20 +132,19 @@ const uploadModalStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
-    borderRadius: '20px',
-    padding: '30px',
-    color: '#333',
+    borderRadius: '15px',
+    padding: '20px',
+    background: 'linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%)',
+    color: 'white',
     fontFamily: 'Arial, sans-serif',
-    background: 'linear-gradient(135deg, #E0EAFC 0%, #CFDEF3 100%)',
-    textAlign: 'center',
-    width: '70%',
-    maxWidth: '90%',
+    width: '500px',
+    maxWidth: '100%',
   },
   overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.75)',
-    zIndex: 900,
+    backgroundColor: 'rgba(255, 255, 255, 0.75)',
   },
 };
+
 
 const UploadButton = styled.button`
   margin-top: 20px;
@@ -164,18 +163,38 @@ const UploadButton = styled.button`
 `;
 
 const CancelButton = styled.button`
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 1.2em;
-  font-weight: bold;
-  background: linear-gradient(135deg, #ed213a 0%, #93291e 100%);
-  border: none;
+  background-color: #f44336; /* Red */
   color: white;
+  padding: 10px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
   cursor: pointer;
-  transition: background 0.3s ease-in-out;
-  border-radius: 20px;
+  border-radius: 12px;
   &:hover {
-    background: linear-gradient(135deg, #93291e 0%, #ed213a 100%);
+    background-color: #da190b;
+    color: white;
+  }
+`;
+
+const ConfirmButton = styled.button`
+  background-color: #4CAF50; /* Green */
+  color: white;
+  padding: 10px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 12px;
+  &:hover {
+    background-color: #45a049;
+    color: white;
   }
 `;
 
@@ -185,6 +204,12 @@ const ButtonContainer = styled.div`
   margin-top: 20px;
 `;
 
+const LanguageButton = styled.button`
+  margin: 10px;
+  padding: 0;
+  border: none;
+  background: none;
+`
 
 export default function App() {
   const pond = useRef();
@@ -317,19 +342,24 @@ export default function App() {
         </div>
       </Modal>
 
+
       <Modal
   isOpen={isUploadModalOpen}
   onRequestClose={closeUploadModal}
   style={uploadModalStyles}
-  contentLabel="Upload Confirmation Modal"
+  contentLabel="Upload Modal"
 >
-  <h2>We're about to extract the text from the images in {chosenLanguage}</h2>
-  <UploadButton onClick={openModal}>Change Language</UploadButton>
-  <ButtonContainer>
-    <UploadButton onClick={uploadFiles}>Continue</UploadButton>
+  <Title>Upload your images</Title>
+  <p>We're about to extract the text from the images in {chosenLanguage}</p>
+  <LanguageButton onClick={openModal}>
+    <img src={`/assets/img/${language}.png`} alt={chosenLanguage} width="30" height="30" />
+  </LanguageButton>
+  <div style={{ display: 'flex', justifyContent: 'center' }}>
+    <ConfirmButton onClick={uploadFiles}>Continue</ConfirmButton>
     <CancelButton onClick={closeUploadModal}>Cancel</CancelButton>
-  </ButtonContainer>
+  </div>
 </Modal>
+
 
 
 
