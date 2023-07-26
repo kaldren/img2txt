@@ -10,20 +10,21 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f5f5f5;
+  background-color: #F0F0F0;
 `;
 
 const StyledButton = styled.button`
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 1.2em;
-  background-color: #008CBA; /* Blue */
+  background-color: #FF7F50;
   border: none;
   color: white;
   cursor: pointer;
   transition-duration: 0.4s;
+  border-radius: 20px;  // Rounded corners
   &:hover {
-    background-color: #4CAF50; /* Green */
+    background-color: #008B8B; // Dark Cyan color on hover
   }
   &:disabled {
     cursor: not-allowed;
@@ -31,10 +32,16 @@ const StyledButton = styled.button`
   }
 `;
 
-// New StyledFilePond component
 const StyledFilePond = styled(FilePond)`
-  min-width: 400px; // Adjust width as needed
+  min-width: 400px; 
+  .filepond--root {
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+  }
 `;
+
 
 export default function App() {
   const pond = useRef();
