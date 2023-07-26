@@ -105,6 +105,7 @@ export default function App() {
         allowProcess={false}
         maxParallelUploads={1} 
         server={serverEndpoint}
+        allowRevert={false}
         onprocessfile={handleProcessFile}
         beforeAddFile={handleAddFile} 
       />
