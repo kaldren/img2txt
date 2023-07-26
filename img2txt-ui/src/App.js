@@ -332,7 +332,10 @@ export default function App() {
       >
         <Title>Upload your images</Title>
         <p>
-          We're about to extract the text from the images in {chosenLanguage}
+        Kindly note, while we aim to provide the most accurate text extraction, the AI model is continuously 
+        improving and may not yield 100% precision at all times. The quality of results highly depends on 
+        the clarity of the uploaded images, ideally from documents or books. By proceeding, you acknowledge 
+        that some variability in accuracy is to be expected and will not hold us liable for any discrepancies.
         </p>
         <div>
           <LanguageButton onClick={openModal}>
