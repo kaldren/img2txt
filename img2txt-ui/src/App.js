@@ -23,6 +23,26 @@ const Header = styled.h1`
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 `;
 
+const AttentionImage = styled.img`
+  width: 50px;
+  height: 50px;
+  margin-bottom: 20px; // Adds some space between the image and the text
+`;
+
+
+const ModalText = styled.p`
+  font-size: 18px; // Increased font size for better readability
+  line-height: 1.6; // Increased line height for better readability
+  color: #000;  // Black color
+  text-align: justify; // Text alignment to justify
+  margin: 20px 0; // Added margin around text for better spacing
+  padding: 10px; // Added padding inside text area for better spacing
+  background-color: #fff0f5; // Light pink background for text area
+  border-radius: 10px; // Rounded corners for text area
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.1); // Soft box-shadow for 3D effect
+`;
+
+
 const StyledButton = styled.button`
   margin-top: 20px;
   padding: 15px 30px; // Increased padding
@@ -330,13 +350,11 @@ export default function App() {
         style={uploadModalStyles}
         contentLabel='Upload Modal'
       >
-        <Title>Upload your images</Title>
-        <p>
-        Kindly note, while we aim to provide the most accurate text extraction, the AI model is continuously 
-        improving and may not yield 100% precision at all times. The quality of results highly depends on 
-        the clarity of the uploaded images, ideally from documents or books. By proceeding, you acknowledge 
-        that some variability in accuracy is to be expected and will not hold us liable for any discrepancies.
-        </p>
+        <AttentionImage src="/assets/img/attention.png" alt="Attention!" />
+        <ModalText>
+          Kindly note, while we aim to provide the most accurate text extraction, the AI model is continuously improving and may not yield 100% precision at all times. The quality of results highly depends on the clarity of the uploaded images, ideally from documents or books. By proceeding, you acknowledge that some variability in accuracy is to be expected and will not hold us liable for any discrepancies.
+        </ModalText>
+
         <div>
           <LanguageButton onClick={openModal}>
             <img
@@ -349,8 +367,8 @@ export default function App() {
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <ConfirmButton onClick={uploadFiles}>Continue</ConfirmButton>
-          <CancelButton onClick={closeUploadModal}>Cancel</CancelButton>
+          <ConfirmButton onClick={uploadFiles}>I agree, go on...</ConfirmButton>
+          <CancelButton onClick={closeUploadModal}>Nope, sorry!</CancelButton>
         </div>
       </Modal>
 
