@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import Modal from 'react-modal';
+import Joyride, { STATUS } from 'react-joyride';
 
 const Container = styled.div`
   display: flex;
@@ -147,6 +148,7 @@ const LanguageDisplay = styled.div`
 
 
 
+
 export default function App() {
   const pond = useRef();
 
@@ -159,6 +161,25 @@ export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [language, setLanguage] = useState('en');
   const [chosenLanguage, setChosenLanguage] = useState('English'); // Initial
+  const [joyrideRun, setJoyrideRun] = useState(true);
+  
+  const joyrideSteps = [
+    {
+      target: ".language-display",
+      content: "Change your document language from here",
+      event: 'load', // try adding this to trigger on load
+      disableBeacon: true, 
+    },
+  ];
+
+  const handleJoyrideCallback = (data) => {
+    const { status, action } = data;
+    console.log("Joyride callback:", status, action);
+    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+      setJoyrideRun(false);
+    }
+  };
+
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -224,9 +245,9 @@ export default function App() {
           <LanguageImage src="/assets/img/en.png" alt="English" />
           <LanguageName>English</LanguageName>
         </LanguageOption>
-        <LanguageOption onClick={() => handleLanguageChange('bg', 'Spanish')}>
-          <LanguageImage src="/assets/img/bg.png" alt="Spanish" />
-          <LanguageName>Spanish</LanguageName>
+        <LanguageOption onClick={() => handleLanguageChange('bg', 'Bulgarian')}>
+          <LanguageImage src="/assets/img/bg.png" alt="Bulgarian" />
+          <LanguageName>Bulgarian</LanguageName>
         </LanguageOption>
       </div>
     </Modal>
@@ -249,11 +270,20 @@ export default function App() {
       <StyledButton onClick={openModal}>
         {processing ? 'Processing...' : 'Upload Files'}
       </StyledButton>
-      <LanguageDisplay>
+      <LanguageDisplay className="language-display">
       <button onClick={openModal}>
         <img src={`/assets/img/${language}.png`} alt={chosenLanguage} width="30" height="30" />
       </button>
     </LanguageDisplay>
+    <Joyride
+  steps={joyrideSteps}
+  run={joyrideRun}
+  continuous={true}
+  showProgress={true}
+  disableBeacon={true} // Add this line
+  callback={handleJoyrideCallback}
+/>
+
     </Container>
   );
 }
