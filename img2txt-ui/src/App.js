@@ -318,8 +318,10 @@ export default function App() {
   const uploadFiles = () => {
     if (pond.current) {
       pond.current.processFiles();
+      closeUploadModal();
     }
   }
+
 
   return (
     <Container>
