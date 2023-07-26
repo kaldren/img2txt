@@ -215,6 +215,16 @@ const LanguageButton = styled.button`
   }
 `;
 
+const SubHeader = styled.h2`
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  font-size: 1.5em;
+  text-align: center;
+  max-width: 800px;
+  margin-top: 10px;
+  margin-bottom: 30px;
+`;
+
 
 export default function App() {
   const pond = useRef();
@@ -373,7 +383,8 @@ export default function App() {
       </Modal>
 
       <ToastContainer />
-      <Header>Upload your images and we'll convert them to text</Header>
+      <Header>Convert your images to text in seconds...</Header>
+      <SubHeader>Converting your photos of documents, notes, books, etc into editable text is now as easy as a pie. We promise it's not magic!</SubHeader>
       <StyledFilePond
         ref={pond}
         instantUpload={false}
