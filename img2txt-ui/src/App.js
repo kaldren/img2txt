@@ -114,6 +114,25 @@ const ConfirmButton = styled.button`
   }
 `;
 
+const LanguageOption = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  cursor: pointer;
+`;
+
+const LanguageImage = styled.img`
+  width: 50px;
+  height: 50px;
+`;
+
+const LanguageName = styled.div`
+  margin-top: 10px;
+  text-align: center;
+`;
+
+
 
 export default function App() {
   const pond = useRef();
@@ -190,12 +209,17 @@ export default function App() {
   contentLabel="Select Language Modal"
 >
   <h2>Select Image Language</h2>
-  <StyledSelect value={language} onChange={handleChange}>
-    <option value="eng">English</option>
-    <option value="spa">Spanish</option>
-    <option value="fre">French</option>
-    {/* add as many languages as pytesseract supports */}
-  </StyledSelect>
+<div style={{ display: 'flex', justifyContent: 'space-around' }}>
+  <LanguageOption onClick={() => setLanguage('eng')}>
+    <LanguageImage src="/assets/img/icons8-usa-48.png" alt="English" />
+    <LanguageName>English</LanguageName>
+  </LanguageOption>
+  <LanguageOption onClick={() => setLanguage('spa')}>
+    <LanguageImage src="/assets/img/icons8-bulgaria-48.png" alt="Bulgarian" />
+    <LanguageName>Bulgarian</LanguageName>
+  </LanguageOption>
+</div>
+
   <ConfirmButton onClick={closeModal}>Confirm</ConfirmButton>
 </Modal>
 
