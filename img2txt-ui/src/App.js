@@ -132,6 +132,19 @@ const LanguageName = styled.div`
   text-align: center;
 `;
 
+const LanguageDisplay = styled.div`
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+`;
+
 
 
 export default function App() {
@@ -144,7 +157,8 @@ export default function App() {
 
   const [processing, setProcessing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [language, setLanguage] = useState('eng'); // default language
+  const [language, setLanguage] = useState('en');
+  const [chosenLanguage, setChosenLanguage] = useState('English'); // Initial
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -154,15 +168,11 @@ export default function App() {
     setIsModalOpen(false);
   }
 
-  const handleChange = (event) => {
-    setLanguage(event.target.value);
-  }
-
-  const uploadFiles = () => {
-    if (pond.current) {
-      pond.current.processFiles();
-    }
-  }
+  const handleLanguageChange = (languageCode, languageName) => {
+    setLanguage(languageCode);
+    setChosenLanguage(languageName);
+    closeModal();
+  };
 
   const handleProcessFile = (error, file) => {
     if (error) {
@@ -202,26 +212,24 @@ export default function App() {
 
   return (
     <Container>
-<Modal
-  isOpen={isModalOpen}
-  onRequestClose={closeModal}
-  style={modalStyles}
-  contentLabel="Select Language Modal"
->
-  <h2>Select Image Language</h2>
-<div style={{ display: 'flex', justifyContent: 'space-around' }}>
-  <LanguageOption onClick={() => setLanguage('eng')}>
-    <LanguageImage src="/assets/img/icons8-usa-48.png" alt="English" />
-    <LanguageName>English</LanguageName>
-  </LanguageOption>
-  <LanguageOption onClick={() => setLanguage('spa')}>
-    <LanguageImage src="/assets/img/icons8-bulgaria-48.png" alt="Bulgarian" />
-    <LanguageName>Bulgarian</LanguageName>
-  </LanguageOption>
-</div>
-
-  <ConfirmButton onClick={closeModal}>Confirm</ConfirmButton>
-</Modal>
+    <Modal
+      isOpen={isModalOpen}
+      onRequestClose={closeModal}
+      style={modalStyles}
+      contentLabel="Select Language Modal"
+    >
+      <h2>Select Image Language</h2>
+      <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+        <LanguageOption onClick={() => handleLanguageChange('eng', 'English')}>
+          <LanguageImage src="/assets/img/en.png" alt="English" />
+          <LanguageName>English</LanguageName>
+        </LanguageOption>
+        <LanguageOption onClick={() => handleLanguageChange('bg', 'Spanish')}>
+          <LanguageImage src="/assets/img/bg.png" alt="Spanish" />
+          <LanguageName>Spanish</LanguageName>
+        </LanguageOption>
+      </div>
+    </Modal>
 
 
       <ToastContainer />
@@ -241,7 +249,12 @@ export default function App() {
       <StyledButton onClick={openModal}>
         {processing ? 'Processing...' : 'Upload Files'}
       </StyledButton>
-
+      <LanguageDisplay>
+      <img src={`/assets/img/${language}.png`} alt={chosenLanguage} width="30" height="30" />
+      <button onClick={openModal}>
+        Change Language
+      </button>
+    </LanguageDisplay>
     </Container>
   );
 }
