@@ -238,6 +238,7 @@ export default function App() {
   const [language, setLanguage] = useState('en');
   const [chosenLanguage, setChosenLanguage] = useState('English');
   const [joyrideRun, setJoyrideRun] = useState(true);
+  const [numFiles, setNumFiles] = useState(0);
 
   const joyrideSteps = [
     {
@@ -273,7 +274,9 @@ export default function App() {
   };
 
   const handleUploadClick = () => {
-    setUploadModalOpen(true);
+    if (numFiles > 0) {
+      setUploadModalOpen(true);
+    }
   };
 
   const handleLanguageChange = (languageCode, languageName) => {
@@ -317,7 +320,12 @@ export default function App() {
       toast.error('Please upload only images (jpeg, png, jpg, gif).');
       return false;
     }
+    setNumFiles(numFiles + 1);
     return true;
+  };
+
+  const handleRemoveFile = () => {
+    setNumFiles(numFiles - 1);
   };
 
   const uploadFiles = () => {
@@ -393,6 +401,7 @@ export default function App() {
         server={serverEndpoint}
         onprocessfile={handleProcessFile}
         beforeAddFile={handleAddFile}
+        onremovefile={handleRemoveFile}
       />
 
       <StyledButton onClick={handleUploadClick} disabled={processing}>
