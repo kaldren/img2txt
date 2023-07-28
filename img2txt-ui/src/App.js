@@ -222,6 +222,17 @@ const LanguageButton = styled.button`
   }
 `;
 
+const EmailInput = styled.input`
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+`;
+
+
 export default function App() {
   const pond = useRef();
 
@@ -239,6 +250,7 @@ export default function App() {
   const [chosenLanguage, setChosenLanguage] = useState('English');
   const [joyrideRun, setJoyrideRun] = useState(true);
   const [numFiles, setNumFiles] = useState(0);
+  const [email, setEmail] = useState("");
 
   const joyrideSteps = [
     {
@@ -370,7 +382,7 @@ export default function App() {
       >
         <AttentionImage src="/assets/img/attention.png" alt="Attention!" />
         <ModalText>
-          Kindly note, while we aim to provide the most accurate text extraction, the AI model is continuously improving and may not yield 100% precision at all times. The quality of results highly depends on the clarity of the uploaded images, ideally from documents or books. By proceeding, you acknowledge that some variability in accuracy is to be expected and will not hold us liable for any discrepancies.
+          Please note that the quality of results highly depends on the clarity of the uploaded images. By proceeding, you acknowledge that some variability in accuracy is to be expected and will not hold us liable for any discrepancies.
         </ModalText>
 
         <div>
@@ -383,6 +395,13 @@ export default function App() {
             <span>( click to change )</span>
         </LanguageButton>
         </div>
+
+        {/* <EmailInput 
+          type="email" 
+          placeholder="Enter your email" 
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        /> */}
 
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <ConfirmButton onClick={uploadFiles}>I agree, go on...</ConfirmButton>
