@@ -324,6 +324,10 @@ export default function App() {
     return true;
   };
 
+  const handleOnAddFile = () => {
+    setNumFiles(numFiles + 1);
+  };
+
   const handleRemoveFile = () => {
     setNumFiles(numFiles - 1);
   };
@@ -401,9 +405,9 @@ export default function App() {
         server={serverEndpoint}
         onprocessfile={handleProcessFile}
         beforeAddFile={handleAddFile}
+        onaddfile={handleOnAddFile}
         onremovefile={handleRemoveFile}
       />
-
       <StyledButton onClick={handleUploadClick} disabled={processing}>
         {processing ? 'Processing...' : 'Upload Files'}
       </StyledButton>
