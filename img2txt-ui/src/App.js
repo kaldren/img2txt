@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import Modal from 'react-modal';
 import Joyride, { STATUS } from 'react-joyride';
+import BuyButtonComponent from './BuyButtonComponent';
 
 const StyledSubHeader = styled.div`
   color: white;
@@ -403,8 +404,8 @@ export default function App() {
           onChange={(e) => setEmail(e.target.value)}
         /> */}
 
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <ConfirmButton onClick={uploadFiles}>I agree, go on...</ConfirmButton>
+        <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
+          <BuyButtonComponent />
           <CancelButton onClick={closeUploadModal}>Nope, sorry!</CancelButton>
         </div>
       </Modal>
